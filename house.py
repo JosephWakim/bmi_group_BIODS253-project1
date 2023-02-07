@@ -205,29 +205,45 @@ def draw_all_trees(t):
     draw_tree(t)
 
 
-def cracked_window(t, num_zag, scale=1, tilt=0):
-    window_size= scale * WINDOW_SIZE
-    window_diagonal = window_size / math.cos(ZAG_DEGREE - 180)
-    diagonal_zag_length = window_diagonal / num_zag
-    zag_line_length = diagonal_zag_length / (2 * 2**(1/2))
-    draw_window(t, scale)  # using the original window function
 
+def cracked_window(t, num_zag, scale=1, tilt=0):
+    """Draws a window with a zigzag shaped crack.
+
+    Params:
+        t: the Turtle object.
+        num_zag: the number of individual zags in the zigzag
+        scale: scaling size of window
+        tilt: tilt of window
+    """
+    window_size= scale * WINDOW_SIZE 
+    window_diagonal = window_size / math.cos(ZAG_DEGREE - 180)  # find length of diagonal across window at desired angle
+    diagonal_zag_length = window_diagonal / num_zag # finding the total displacement of the zag line
+    zag_line_length = diagonal_zag_length / (2 * 2**(1/2)) # size of each individual zag
+    draw_window(t, scale)  # using the original window function
+    
     t.seth(200)
     zag_back = 0
-    for h in range(2):
+    for h in range(2):  # create zig zag line and return turtle to start location
         if zag_back == 1:
             t.penup()
         for i in range(num_zag - 1):
-            t.forward(zag_line_length * (-1)**h)
+            t.forward(zag_line_length * (-1) ** h)
             t.left(90)
-            t.forward(zag_line_length * (-1)**h)
+            t.forward(zag_line_length * (-1) ** h)
             t.right(90)
         zag_back = zag_back + 1
         t.pendown()
     t.seth(180)
 
-def draw_all_cracked_windows(t, right_offset=0, scale=1, tilt=0):
 
+def draw_all_cracked_windows(t, right_offset=0, scale=1, tilt=0):
+    """Draws all the windows from the original pre-earthquake state, but adds a crack through each of them".
+    Params:
+        t: the Turtle object.
+        right_offset: right_offset of window
+        scale: size scaling of window
+        tilt: tilt of window
+    """
     start_loc = t.pos()
 
     house_width = scale * HOUSE_WIDTH
@@ -247,11 +263,12 @@ def draw_all_cracked_windows(t, right_offset=0, scale=1, tilt=0):
     t.pendown()
 
     t.seth(180 + tilt)
+    # First row of windows
     cracked_window(t, ZAG_NUMBER, scale=scale)
 
     t.seth(180+tilt)
     for i in range(int(N_WINDOWS / 2) - 1):
-        if i//2 == 1:
+        if i // 2 == 1:
             t.penup()
             t.forward(2 * window_size)
             t.pendown()
@@ -260,8 +277,10 @@ def draw_all_cracked_windows(t, right_offset=0, scale=1, tilt=0):
             t.penup()
             t.forward(2 * window_size)
             t.pendown()
-            draw_window(t, scale=scale)
 
+           # move to location of second window row
+            draw_window(t, scale=scale)
+      
     t.penup()
     t.seth(90)
     t.forward(second_story)
@@ -273,7 +292,7 @@ def draw_all_cracked_windows(t, right_offset=0, scale=1, tilt=0):
     t.seth(180 + tilt)
     cracked_window(t, ZAG_NUMBER, scale=scale)
     for i in range(int(N_WINDOWS / 2) - 1):
-        if i//2 == 1:
+        if i // 2 == 1:
             t.penup()
             t.seth(180+tilt)
             t.forward(2 * window_size)
@@ -286,8 +305,7 @@ def draw_all_cracked_windows(t, right_offset=0, scale=1, tilt=0):
             t.pendown()
             draw_window(t, scale=scale)
 
-
-
+    # move turtle to the start location
     t.penup()
     t.goto(start_loc)
     t.pendown()
@@ -300,7 +318,7 @@ def draw_window(t, scale=1):
     Params:
         t: the Turtle object.
     """
-    window_size= scale*WINDOW_SIZE
+    window_size = scale * WINDOW_SIZE
 
     t.fillcolor(WINDOW_COLOR)
     t.begin_fill()
