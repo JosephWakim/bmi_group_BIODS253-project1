@@ -84,7 +84,7 @@ class TestShapes(unittest.TestCase):
         house.draw_all_clouds(
             self._turtle, house.CLOUD_X, house.CLOUD_HEIGHT
         )
-        # compare these clouds to the correct cloudss.png
+        # compare these clouds to the correct clouds.png
         self.assertIsNone(
             self._compare_canvas_to_expected(expected_filename="testdata/clouds.png")
         )
@@ -108,6 +108,16 @@ class TestShapes(unittest.TestCase):
         self.assertIsNone(
             self._compare_canvas_to_expected(expected_filename="testdata/windows.png")
         )
+
+    def scaling(self):
+        from pre_quake import *
+        single_house_scene(t, tilt = 0, scale = 0.5, right_offset=300)
+        single_house_scene(t, tilt = 0, scale = 0.25, right_offset=-300)
+        self.assertIsNone(
+            self._compare_canvas_to_expected(expected_filename = "testdata/scaled_houses.png")
+        )
+
+
 
 
 if __name__ == "__main__":
