@@ -8,6 +8,7 @@ import tempfile
 import os.path
 import svg_turtle
 import inspect
+import post_quake as post
 
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF, renderPM
@@ -107,6 +108,14 @@ class TestShapes(unittest.TestCase):
         # compare these windows to the correct windows.png
         self.assertIsNone(
             self._compare_canvas_to_expected(expected_filename="testdata/windows.png")
+        )
+
+    def test_post_earthquake(self):
+        # generate full house drawing
+        post.main(self._turtle)
+        # compare this house drawing to the correct house.png
+        self.assertIsNone(
+            self._compare_canvas_to_expected(expected_filename="testdata/post_earthquake.png")
         )
 
 
