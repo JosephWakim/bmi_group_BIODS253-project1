@@ -120,8 +120,12 @@ class TestShapes(unittest.TestCase):
         )
 
     def test_scaling(self):
-        single_house_scene(self._turtle, tilt = 0, scale = 0.5, right_offset=300)
-        single_house_scene(self._turtle, tilt = 0, scale = 0.25, right_offset=-300)
+        scale_1 = 0.5
+        scale_2 = 0.25
+        offset = 300
+        draw_bounding_box(self._turtle)
+        single_house_scene(self._turtle, scale=scale_1, right_offset=offset)
+        single_house_scene(self._turtle, scale=scale_2, right_offset=-offset)
         self.assertIsNone(
             self._compare_canvas_to_expected(expected_filename = "testdata/scaled_houses.png")
         )
