@@ -8,6 +8,8 @@ import tempfile
 import os.path
 import svg_turtle
 import inspect
+from pre_quake import *
+import post_quake as post
 
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF, renderPM
@@ -109,15 +111,24 @@ class TestShapes(unittest.TestCase):
             self._compare_canvas_to_expected(expected_filename="testdata/windows.png")
         )
 
-    def scaling(self):
-        from pre_quake import *
-        single_house_scene(t, tilt = 0, scale = 0.5, right_offset=300)
-        single_house_scene(t, tilt = 0, scale = 0.25, right_offset=-300)
+    def test_post_earthquake(self):
+        # generate full house drawing
+        post.main(self._turtle)
+        # compare this house drawing to the correct house.png
+        self.assertIsNone(
+            self._compare_canvas_to_expected(expected_filename="testdata/post_earthquake.png")
+        )
+
+    def test_scaling(self):
+        scale_1 = 0.5
+        scale_2 = 0.25
+        offset = 300
+        draw_bounding_box(self._turtle)
+        single_house_scene(self._turtle, scale=scale_1, right_offset=offset)
+        single_house_scene(self._turtle, scale=scale_2, right_offset=-offset)
         self.assertIsNone(
             self._compare_canvas_to_expected(expected_filename = "testdata/scaled_houses.png")
         )
-
-
 
 
 if __name__ == "__main__":

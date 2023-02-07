@@ -5,8 +5,10 @@ import turtle
 from house import *
 from pre_quake import *
 
-if __name__ == "__main__":
-    t = turtle.Turtle()
+
+def main(t):
+    """Generate the post-earthquake scene.
+    """
     t.speed(0)
     draw_bounding_box(t)
     nominal_scale_factor = 0.3
@@ -15,12 +17,15 @@ if __name__ == "__main__":
     single_house_scene(
         t, tilt=0, scale=nominal_scale_factor, right_offset=nominal_offset, crack=True
     )
-
     single_house_scene(
         t, tilt=5, scale=nominal_scale_factor * reduced_scale_factor, right_offset=0, crack=True
     )
-
     single_house_scene(
         t, tilt=0, scale=nominal_scale_factor, right_offset=-nominal_offset, crack= True
     )
+
+
+if __name__ == "__main__":
+    t = turtle.Turtle()
+    main(t)
     turtle.done()
